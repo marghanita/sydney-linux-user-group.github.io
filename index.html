@@ -4,6 +4,7 @@
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
 
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
     <link rel="stylesheet" type="text/css" href="stylesheets/github-dark.css" media="screen">
     <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
@@ -15,24 +16,124 @@
 
     <header>
       <div class="container">
-        <h1>Sydney Linux User Group</h1>
-        <h2></h2>
-
-        <section id="downloads">
-          <a href="https://github.com/sydney-linux-user-group" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
-        </section>
+          <img src="images/logo.png" style="float: left; padding-right: 1em;">
+          <h1>Sydney<br>Linux<br>User<br>Group</h1>
+          <div style="clear: both;"></div>
       </div>
     </header>
 
     <div class="container">
       <section id="main_content">
-        <h1>
-<a id="sydney-linux-user-group" class="anchor" href="#sydney-linux-user-group" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Sydney Linux User Group</h1>
+        <p>
+The Sydney Linux Users Group (SLUG) is a community of passionate freedom and
+technology lovers in Sydney, Australia. 
 
-<p>The Sydney Linux Users Group (SLUG) is a community of passionate freedom and technology lovers in Sydney, Australia. We are one of the largest and most active Linux users groups in the world, with a diverse membership of users, developers, sysadmins, and advocates.</p>
+We are one of the largest and most active 
+<a href="http://www.linux.org.au/linux">Linux</a> 
+<a href="http://en.wikipedia.org/wiki/Linux_user_group">users groups</a>
+in the world, with a diverse membership of users, developers, sysadmins, and
+advocates.
+        </p>
+        <div style="clear: both;"></div>
+      </section>
+      <section id="main_content">
+        <iframe style="float: right;" width="225" height="225" src="http://meetu.ps/2X02C9" frameborder="0"></iframe>
+        <h2>Monthly Meetings</h2>
+        <hr>
+        <p>
+SLUG meetings are normally held on the <b>last Friday</b> of every month
+<b>except</b> December. Current event details can be found on the 
+<a href="https://meetup.com/Sydney-Linux-User-Group">meetup group page</a>.
+        </p><p>
+SLUG meetings are held at Google Australia. See the following 
+<a href="map.html">page</a> for details instructions for getting to the
+meeting.
+	</p>
+        <h3><a href="map.html">MAP</a></h3>
+      </section>
+      <section id="main_content" style="min-height: 400px;">
+        <h2 class=left>Previously at SLUG.... (more on <a href="https://www.youtube.com/user/SydneyLinuxUserGroup">YouTube</a>)</h2>
+        <hr>
+        <div id="youtube-wrapper" style="height: 400px;"></div>
+      </section>
+      <section id="main_content">
+        <h2 class=left><img src="images/linuxaus.png" alt="Linux Australia" style="margin-left: auto; margin-right: auto; display: block;"></h3>
+        <hr>
+        <p>
+
+SLUG is a sub-committee of the 
+<a href="http://linux.org.au">Linux Australia organisation</a>.
+<img src="">
+<ul>
+  <li>Our activities are driven by our community (that means you!)</li>
+  <li>See http://linux.org.au/events for a list of upcoming events</li>
+  <li>To join LA - https://linux.org.au/membership</li>
+</ul>
+
+        </p>
       </section>
     </div>
 
-    
   </body>
+
+<script>
+$(document).ready(function(){
+  // Setup the YouTube widget
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+
+  // Get the SLUG playlist
+  var tag = document.createElement('script');
+  tag.src = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=F6073A99A735F849&key=AIzaSyDWvwZc2a39XnIamaZueZIRYPXjqTPhs2M&callback=youtube_playlist_callback";
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+  // Load the You Tube iFrame API...
+  var tag = document.createElement('script');
+  tag.src = "https://www.youtube.com/player_api";
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+});
+
+var youtube_api_ready = false;
+function onYouTubePlayerAPIReady() {
+  youtube_api_ready = true;
+  youtube_setup();
+}
+
+var youtube_playlist_ready = false;
+var youtube_playlist = [];
+function youtube_playlist_callback(data) {
+  youtube_playlist_ready = true;
+  var container = $('#youtube-wrapper');
+  $.each(data.items, function(index, item) {
+    youtube_playlist.push(item.snippet.resourceId.videoId);
+  });
+  youtube_setup();
+}
+
+function youtube_setup() {
+  if (youtube_playlist_ready && youtube_api_ready) {
+    var videoid = youtube_playlist[Math.floor(Math.random()*youtube_playlist.length)];
+
+    var playerVars = {};
+    playerVars.wmode = "transparent";
+    playerVars.allowScriptAccess = "always";
+    playerVars.enablejsapi = 1;
+    playerVars.autoplay = 1;
+
+    // Choose a random video to show
+    var player = new YT.Player("youtube-wrapper", {
+        width: "100%",
+        height: "100%",
+        videoId: videoid,
+        playerVars: playerVars,
+        events: {
+          'onReady': function(event) {
+            $("youtube-wrapper").fadeIn();
+            // Mute doesn't work on HTML5 videos
+            event.target.setVolume(0);
+          },
+        }
+      }); // YT.Player */
+  }
+}
+</script>
 </html>
